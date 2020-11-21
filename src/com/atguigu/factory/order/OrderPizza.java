@@ -9,25 +9,50 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class OrderPizza {
-    public OrderPizza() {
-        Pizza pizza = null;
-        String orderType;
+//    public OrderPizza() {
+//        Pizza pizza = null;
+//        String orderType;
+//        do {
+//            orderType = getPizzaType();
+//            if (orderType.equals("greek")) {
+//                pizza = new GreekPizza();
+//                pizza.setName("Greek Pizza");
+//            } else if (orderType.equals("cheese")) {
+//                pizza = new CheesePizza();
+//                pizza.setName("Cheese Pizza");
+//            } else {
+//                break;
+//            }
+//            pizza.prepare();
+//            pizza.bake();
+//            pizza.cut();
+//            pizza.box();
+//
+//        } while (true);
+//    }
+
+    private SimpleFactory sf;
+    private Pizza pizza;
+
+    public OrderPizza(SimpleFactory simpleFactory) {
+        setSf(simpleFactory);
+    }
+
+    public void setSf(SimpleFactory simpleFactory) {
+        sf = simpleFactory;
+        String orderType = "";
         do {
             orderType = getPizzaType();
-            if (orderType.equals("greek")) {
-                pizza = new GreekPizza();
-                pizza.setName("Greek Pizza");
-            } else if (orderType.equals("cheese")) {
-                pizza = new CheesePizza();
-                pizza.setName("Cheese Pizza");
-            } else {
+            pizza = this.sf.createPizza(orderType);
+            if (null != pizza) {
+                pizza.prepare();
+                pizza.bake();
+                pizza.cut();
+                pizza.box();
                 break;
+            } else {
+                System.out.println("Order Pizza failed.");
             }
-            pizza.prepare();
-            pizza.bake();
-            pizza.cut();
-            pizza.box();
-
         } while (true);
     }
 
